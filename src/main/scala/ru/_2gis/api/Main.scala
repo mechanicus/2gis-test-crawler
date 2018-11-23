@@ -7,8 +7,9 @@ import ru._2gis.api.controller.CrawlerApi
 object Main {
 
   def main(args: Array[String]): Unit = {
-    val config = Configuration("localhost", 8080)
-    new CrawlerApi(config).run()
+    Configuration(args) foreach { config =>
+      new CrawlerApi(config).run()
+    }
   }
 
 }
