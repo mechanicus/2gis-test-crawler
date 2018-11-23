@@ -16,6 +16,7 @@ final class CrawlerApi(config: Configuration)
 
   private implicit val system: ActorSystem = ActorSystem()
 
+  private val syncRoutes = new SyncRoutes(system)
   private val asyncRoutes = new AsyncRoutes(system)
 
   override def run(): Unit = {
@@ -24,7 +25,7 @@ final class CrawlerApi(config: Configuration)
   }
 
   override def routes: Route = pathPrefix("api") {
-    asyncRoutes.routes
+    syncRoutes.routes ~ asyncRoutes.routes
   }
 
 }

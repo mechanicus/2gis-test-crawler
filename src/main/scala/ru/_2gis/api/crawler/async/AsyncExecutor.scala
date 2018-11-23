@@ -2,15 +2,13 @@ package ru._2gis.api.crawler.async
 
 import java.net.URL
 import java.util.UUID
-import java.util.concurrent.TimeUnit
 
 import akka.actor.{Actor, ActorRef, Props}
 import akka.pattern.{ask, pipe}
 import akka.routing._
 import akka.util.Timeout
-import okhttp3.OkHttpClient
 import ru._2gis.api.CustomExecutionContext
-import ru._2gis.api.crawler.{CompanyInfoLoader, CompanyInfoLoadingResult, LoadCompanyInfo}
+import ru._2gis.api.crawler.{CompanyInfoLoader, CompanyInfoLoadingResult, HttpClient, LoadCompanyInfo}
 
 import scala.concurrent.duration._
 
@@ -23,7 +21,7 @@ final case class GetResult(id: UUID)
 
 
 private[async]
-final class AsyncExecutor extends Actor with CustomExecutionContext {
+final class AsyncExecutor extends Actor with HttpClient with CustomExecutionContext {
 
   private val executions = context.actorOf(Props[Executions], "executions")
   private val companyInfoLoaders = buildLoaders()
@@ -42,14 +40,7 @@ final class AsyncExecutor extends Actor with CustomExecutionContext {
       executions ? GetExecutionStatus(id) pipeTo sender()
   }
 
-  private def buildClient(): OkHttpClient = {
-    new OkHttpClient.Builder()
-      .callTimeout(10000, TimeUnit.MILLISECONDS)
-      .build()
-  }
-
   private def buildLoaders(): ActorRef = {
-    val client = buildClient()
     context.actorOf(FromConfig.props(Props(classOf[CompanyInfoLoader], client)), "loaders")
   }
 

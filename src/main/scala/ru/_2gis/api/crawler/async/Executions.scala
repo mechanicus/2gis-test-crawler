@@ -4,7 +4,7 @@ import java.util.UUID
 
 import akka.actor.Actor
 import com.typesafe.config.ConfigFactory
-import ru._2gis.api.crawler.CompanyInfoLoadingResult
+import ru._2gis.api.crawler._
 
 import scala.concurrent.duration._
 

@@ -4,7 +4,7 @@ import java.net.URL
 
 import argonaut._, Argonaut._
 import ru._2gis.api.crawler.CompanyInfo
-import ru._2gis.api.crawler.async.{Complete, ExecutionStatus, Incomplete, Record}
+import ru._2gis.api.crawler.{Complete, ExecutionStatus, Incomplete, Record}
 
 object JsonCodecs extends EncodeJsons {
 

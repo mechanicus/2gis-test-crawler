@@ -1,9 +1,9 @@
-package ru._2gis.api.crawler.async
+package ru._2gis.api.crawler
 
 import java.net.URL
 
-import ru._2gis.api.crawler.CompanyInfo
 
+final case class CompanyInfo(title: String)
 
 final case class Record (
   url: URL,

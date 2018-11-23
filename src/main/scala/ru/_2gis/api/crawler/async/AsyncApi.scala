@@ -7,6 +7,7 @@ import akka.actor.{ActorSystem, Props}
 import akka.pattern.ask
 import akka.util.Timeout
 import ru._2gis.api.CustomExecutionContext
+import ru._2gis.api.crawler.ExecutionStatus
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
