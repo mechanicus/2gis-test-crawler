@@ -15,9 +15,9 @@ trait CustomExecutionContext {
 
 object CustomExecutionContext {
 
-  private val config = ConfigFactory.load().getConfig("api.execution-context")
+  private lazy val config = ConfigFactory.load().getConfig("api.execution-context")
 
-  private implicit val ec: ExecutionContext =
+  private lazy val ec: ExecutionContext =
     ExecutionContext.fromExecutor(new ForkJoinPool(config.getInt("parallelism")))
 
 }
