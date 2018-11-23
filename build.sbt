@@ -33,3 +33,7 @@ scalacOptions ++= Seq (
   "-Xfatal-warnings",
   "-Xlint:_"
 )
+
+target in assembly := file("jar")
+assemblyJarName in assembly := "crawler-api.jar"
+mainClass in assembly := Some("ru._2gis.api.Main")
