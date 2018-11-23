@@ -1,13 +1,24 @@
 <configuration>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>[%-5level]-[%date{ISO8601}]-[%X{sourceThread}] - %msg%n</pattern>
+            <pattern>[%-5level]-[%date{ISO8601}]-[%X{akkaSource}] - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="ALL">
-        <appender-ref ref="STDOUT"/>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>crawler-api.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%-5level]-[%date{ISO8601}]-[%X{akkaSource}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>
