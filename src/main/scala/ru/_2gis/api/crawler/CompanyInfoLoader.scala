@@ -7,6 +7,7 @@ import akka.actor.Actor
 import okhttp3.{OkHttpClient, Request, Response, ResponseBody}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import ru._2gis.api.{ErrorMessage, Title}
 
 import scala.util.{Failure, Success, Try}
 
@@ -20,15 +21,12 @@ private[crawler]
 final case class CompanyInfoLoadingResult(
   taskId: UUID,
   url: URL,
-  result: Either[String, CompanyInfo]
+  result: Either[ErrorMessage, CompanyInfo]
 )
 
 
 private[crawler]
 final class CompanyInfoLoader(client: OkHttpClient) extends Actor {
-
-  type ErrorMessage = String
-  type Title = String
 
   override def receive: Receive = {
     case LoadCompanyInfo(id, url) =>

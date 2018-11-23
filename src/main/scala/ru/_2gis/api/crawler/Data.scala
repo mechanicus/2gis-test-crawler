@@ -2,12 +2,14 @@ package ru._2gis.api.crawler
 
 import java.net.URL
 
+import ru._2gis.api.{ErrorMessage, Title}
 
-final case class CompanyInfo(title: String)
+
+final case class CompanyInfo(title: Title)
 
 final case class Record (
   url: URL,
-  result: Either[String, CompanyInfo]
+  result: Either[ErrorMessage, CompanyInfo]
 )
 
 sealed abstract class ExecutionStatus
