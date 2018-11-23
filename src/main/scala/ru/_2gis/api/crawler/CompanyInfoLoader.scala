@@ -47,6 +47,13 @@ final class CompanyInfoLoader(client: OkHttpClient) extends Actor {
       .url(url)
       .build()
 
+    def filterBadStatuses(response: Response): Try[Response] =
+      if (response.code >= 200 && response.code < 400) {
+        Success(response)
+      } else {
+        Failure(new Exception(s"Bad response code: ${response.code}"))
+      }
+
     def getBody(response: Response): Try[ResponseBody] = if (response.body == null) {
       Failure(new NullPointerException("response body is null"))
     } else {
@@ -56,7 +63,8 @@ final class CompanyInfoLoader(client: OkHttpClient) extends Actor {
     val request = buildRequest(url)
     val content = for {
       response <- Try(client.newCall(request).execute())
-      body <- getBody(response)
+      goodResponse <- filterBadStatuses(response)
+      body <- getBody(goodResponse)
       content <- Try(body.string())
     } yield content
     content match {
