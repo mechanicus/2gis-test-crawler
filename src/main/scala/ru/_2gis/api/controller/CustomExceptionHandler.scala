@@ -5,6 +5,7 @@ import akka.http.scaladsl.server.ExceptionHandler
 import ru._2gis.api.view._
 import ru._2gis.api.marshalling._
 
+/** Кастомный обработчик для отрисовки исключений в стандартном json-формате */
 trait CustomExceptionHandler {
 
   import Marshallers._
