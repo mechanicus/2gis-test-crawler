@@ -34,6 +34,8 @@ object Responses {
 
   def notFound(message: String): JsonResponse[String] = error(HTTP_NOT_FOUND, "NOT_FOUND", message)
 
+  def internalError(ex: Throwable): JsonResponse[String] = error(HTTP_INTERNAL_ERROR, "INTERNAL_ERROR", ex.getMessage)
+
   def success[A](code: Int, status: String, result: A): JsonResponse[A] = Success(code, status, result)
 
   def error(code: Int, status: String, message: String): JsonResponse[String] = Error(code, status, message)

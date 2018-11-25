@@ -16,6 +16,7 @@ final class CrawlerApi(cliConfig: CLIConfig)(implicit val fileConfig: Config)
   extends Runnable
      with RouteGroup
      with CustomRejectionHandler
+     with CustomExceptionHandler
 {
 
   private val logger = LoggerFactory.getLogger(getClass)
