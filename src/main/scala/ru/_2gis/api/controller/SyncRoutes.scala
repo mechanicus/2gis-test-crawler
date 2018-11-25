@@ -4,6 +4,8 @@ import java.net.URL
 import akka.actor.ActorSystem
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import com.typesafe.config.Config
+import okhttp3.OkHttpClient
 import ru._2gis.api.GlobalExecutionContext
 import ru._2gis.api.crawler.sync.SyncApi
 import ru._2gis.api.marshalling._
@@ -13,7 +15,7 @@ import ru._2gis.api.view._
 /**
   * Модуль контроллера, обрабатывающий синхронные запросы к API
   */
-final class SyncRoutes(system: ActorSystem)
+final class SyncRoutes(implicit system: ActorSystem, client: OkHttpClient, config: Config)
   extends RouteGroup
      with GlobalExecutionContext
 {
@@ -22,7 +24,7 @@ final class SyncRoutes(system: ActorSystem)
   import Marshallers._
   import Unmarshallers._
 
-  private val syncApi = new SyncApi(system)
+  private val syncApi = new SyncApi
 
   override def routes: Route = {
     pathPrefix("sync") {

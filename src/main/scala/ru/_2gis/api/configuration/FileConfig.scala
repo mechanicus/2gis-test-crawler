@@ -6,9 +6,10 @@ import com.typesafe.config.{Config, ConfigFactory}
 
 object FileConfig {
 
-  lazy val config: Config =
+  implicit lazy val config: Config =
     ConfigFactory.parseFile(new File("api.conf"))
       .withFallback(ConfigFactory.load())
+
 
   implicit final class PrettyConfig(val config: Config) extends AnyVal {
 

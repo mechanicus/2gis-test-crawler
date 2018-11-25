@@ -5,6 +5,8 @@ import java.net.URL
 import akka.actor.ActorSystem
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import com.typesafe.config.Config
+import okhttp3.OkHttpClient
 import ru._2gis.api.GlobalExecutionContext
 import ru._2gis.api.crawler.async._
 import ru._2gis.api.marshalling._
@@ -17,7 +19,7 @@ import scala.concurrent.duration._
 /**
   * Модуль контроллера, обрабатывающий асинхронные запросы к API
   */
-final class AsyncRoutes(system: ActorSystem)
+final class AsyncRoutes(implicit system: ActorSystem, client: OkHttpClient, config: Config)
   extends RouteGroup
      with GlobalExecutionContext
 {
@@ -26,7 +28,7 @@ final class AsyncRoutes(system: ActorSystem)
   import Marshallers._
   import Unmarshallers._
 
-  private val asyncApi = new AsyncApi(system)
+  private val asyncApi = new AsyncApi
 
   override def routes: Route = {
     pathPrefix("async") {

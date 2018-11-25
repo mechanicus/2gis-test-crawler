@@ -6,6 +6,8 @@ import java.util.UUID
 import akka.actor.{ActorSystem, Props}
 import akka.pattern.ask
 import akka.util.Timeout
+import com.typesafe.config.Config
+import okhttp3.OkHttpClient
 import ru._2gis.api.GlobalExecutionContext
 import ru._2gis.api.crawler.ExecutionStatus
 
@@ -16,9 +18,11 @@ import scala.concurrent.duration._
   * Класс-обертка над акторной системой, предоставляющий scala-api для
   * исполнения асинхронных запросов
   */
-final class AsyncApi(system: ActorSystem) extends GlobalExecutionContext {
+final class AsyncApi(implicit system: ActorSystem, client: OkHttpClient, config: Config)
+  extends GlobalExecutionContext
+{
 
-  private val asyncExecutor = system.actorOf(Props[AsyncExecutor], "async-executor")
+  private val asyncExecutor = system.actorOf(Props(classOf[AsyncExecutor], client, config), "async-executor")
   private implicit val askTimeout: Timeout = Timeout(1.second)
 
   def executeQuery(urls: IndexedSeq[URL]): Future[UUID] = {

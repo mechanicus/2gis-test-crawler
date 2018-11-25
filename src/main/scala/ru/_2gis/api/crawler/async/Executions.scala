@@ -3,7 +3,7 @@ package ru._2gis.api.crawler.async
 import java.util.UUID
 
 import akka.actor.Actor
-import ru._2gis.api.configuration.FileConfig
+import com.typesafe.config.Config
 import ru._2gis.api.crawler._
 
 import scala.concurrent.duration._
@@ -24,11 +24,11 @@ final case class MaybeExecutionStatus(status: Option[ExecutionStatus])
 
 /** LRU-кэш исполняющихся и исполненных запросов */
 private[async]
-final class Executions extends Actor {
+final class Executions(config: Config) extends Actor {
 
-  private val config = FileConfig.config.getConfig("api.crawler.async.executions")
-  private val maxCapacity: Int = config.getInt("cache.max-capacity")
-  private val executionLifetime: Duration = Duration(config.getString("cache.lifetime"))
+  private val conf = config.getConfig("api.crawler.async.executions")
+  private val maxCapacity: Int = conf.getInt("cache.max-capacity")
+  private val executionLifetime: Duration = Duration(conf.getString("cache.lifetime"))
   private val ticks = context.system.scheduler.schedule(1.second, 1.second, self, Tick)(context.dispatcher)
 
   override def receive: Receive = work(Map.empty)

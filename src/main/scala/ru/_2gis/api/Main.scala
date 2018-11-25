@@ -7,8 +7,9 @@ import ru._2gis.api.controller.CrawlerApi
 object Main {
 
   def main(args: Array[String]): Unit = {
+    import FileConfig.config
     CLIConfig(args) foreach { cliConfig =>
-      new CrawlerApi(cliConfig, FileConfig.config).run()
+      new CrawlerApi(cliConfig).run()
     }
   }
 
