@@ -6,8 +6,7 @@ import java.util.UUID
 import akka.actor.{ActorSystem, Props}
 import akka.pattern.ask
 import akka.util.Timeout
-import com.typesafe.config.ConfigFactory
-import ru._2gis.api.CustomExecutionContext
+import ru._2gis.api.configuration.FileConfig
 import ru._2gis.api.crawler.{Complete, ExecutionStatus, HttpClient}
 
 import scala.concurrent.Future
@@ -18,10 +17,10 @@ import scala.concurrent.duration._
   * Класс-обертка над акторной системой, предоставляющий scala-api для
   * исполнения синхронных запросов
   */
-final class SyncApi(system: ActorSystem) extends HttpClient with CustomExecutionContext {
+final class SyncApi(system: ActorSystem) extends HttpClient {
 
   private val id = UUID.fromString("00000000-0000-0000-0000-000000000000")
-  private val config = ConfigFactory.load().getConfig("api.crawler")
+  private val config = FileConfig.config.getConfig("api.crawler")
   private implicit val timeout: Timeout = Timeout((config.getLong("http-client.loadTimeoutInMillis") + 2).millis)
 
   def executeQuery(urls: IndexedSeq[URL]): Future[ExecutionStatus] = {

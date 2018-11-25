@@ -3,7 +3,7 @@ package ru._2gis.api.crawler.async
 import java.util.UUID
 
 import akka.actor.Actor
-import com.typesafe.config.ConfigFactory
+import ru._2gis.api.configuration.FileConfig
 import ru._2gis.api.crawler._
 
 import scala.concurrent.duration._
@@ -26,7 +26,7 @@ final case class MaybeExecutionStatus(status: Option[ExecutionStatus])
 private[async]
 final class Executions extends Actor {
 
-  private val config = ConfigFactory.load().getConfig("api.crawler.async.executions")
+  private val config = FileConfig.config.getConfig("api.crawler.async.executions")
   private val maxCapacity: Int = config.getInt("cache.max-capacity")
   private val executionLifetime: Duration = Duration(config.getString("cache.lifetime"))
   private val ticks = context.system.scheduler.schedule(1.second, 1.second, self, Tick)(context.dispatcher)

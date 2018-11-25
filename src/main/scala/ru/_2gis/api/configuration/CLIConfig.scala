@@ -3,14 +3,14 @@ package ru._2gis.api.configuration
 import scopt.OptionParser
 
 
-final case class Configuration (
+final case class CLIConfig(
   host: String,
   port: Int
 )
 
-object Configuration {
+object CLIConfig {
 
-  def apply(args: Array[String]): Option[Configuration] = new OptionParser[Configuration]("crawler-api.jar") {
+  def apply(args: Array[String]): Option[CLIConfig] = new OptionParser[CLIConfig]("crawler-api.jar") {
 
     opt[String]('h', "host") required() action {
       case (hostString, config) => config.copy(host = hostString)
@@ -26,6 +26,6 @@ object Configuration {
       }
     } valueName "<int>" text "port number to which the http endpoint will be bound"
 
-  }.parse(args, Configuration("localhost", 8080))
+  }.parse(args, CLIConfig("localhost", 8080))
 
 }
