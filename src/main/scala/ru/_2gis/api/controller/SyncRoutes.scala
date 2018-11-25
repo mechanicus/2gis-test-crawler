@@ -25,14 +25,14 @@ final class SyncRoutes(system: ActorSystem)
   private val syncApi = new SyncApi(system)
 
   override def routes: Route = {
-    pathPrefix("sync") { path("query") {
-      post { formFields('urls.as[IndexedSeq[URL]]) { urls =>
+    pathPrefix("sync") {
+      path("query") { post { formFields('urls.as[IndexedSeq[URL]]) { urls =>
         val response = for {
           id <- syncApi.executeQuery(urls)
         } yield Responses.ok(id)
         complete(response)
-      }}
-    }}
+      }}}
+    }
   }
 
 }

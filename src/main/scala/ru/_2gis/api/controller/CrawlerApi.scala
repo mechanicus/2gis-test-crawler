@@ -24,7 +24,7 @@ final class CrawlerApi(config: Configuration)
     Http().bindAndHandle(routes, config.host, config.port)
   }
 
-  override def routes: Route = pathPrefix("api") {
+  override def routes: Route = pathPrefix("crawler") {
     syncRoutes.routes ~ asyncRoutes.routes
   }
 
