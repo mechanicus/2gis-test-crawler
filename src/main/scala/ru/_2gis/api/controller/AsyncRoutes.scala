@@ -5,7 +5,7 @@ import java.net.URL
 import akka.actor.ActorSystem
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import ru._2gis.api.CustomExecutionContext
+import ru._2gis.api.GlobalExecutionContext
 import ru._2gis.api.crawler.async._
 import ru._2gis.api.marshalling._
 import ru._2gis.api.view._
@@ -19,7 +19,7 @@ import scala.concurrent.duration._
   */
 final class AsyncRoutes(system: ActorSystem)
   extends RouteGroup
-     with CustomExecutionContext
+     with GlobalExecutionContext
 {
 
   import JsonCodecs._

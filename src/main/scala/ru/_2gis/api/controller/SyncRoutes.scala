@@ -4,10 +4,10 @@ import java.net.URL
 import akka.actor.ActorSystem
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import ru._2gis.api.CustomExecutionContext
+import ru._2gis.api.GlobalExecutionContext
 import ru._2gis.api.crawler.sync.SyncApi
-import ru._2gis.api.view._
 import ru._2gis.api.marshalling._
+import ru._2gis.api.view._
 
 
 /**
@@ -15,7 +15,7 @@ import ru._2gis.api.marshalling._
   */
 final class SyncRoutes(system: ActorSystem)
   extends RouteGroup
-  with CustomExecutionContext
+     with GlobalExecutionContext
 {
 
   import JsonCodecs._

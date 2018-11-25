@@ -7,7 +7,7 @@ import akka.actor.{Actor, Props}
 import akka.pattern.{ask, pipe}
 import akka.util.Timeout
 import okhttp3.OkHttpClient
-import ru._2gis.api.CustomExecutionContext
+import ru._2gis.api.GlobalExecutionContext
 import ru._2gis.api.crawler._
 
 import scala.concurrent.Future
@@ -23,7 +23,7 @@ final class SyncExecutor (
   client: OkHttpClient,
   private implicit val timeout: Timeout
 ) extends Actor
-  with CustomExecutionContext
+  with GlobalExecutionContext
 {
 
   override def receive: Receive = {

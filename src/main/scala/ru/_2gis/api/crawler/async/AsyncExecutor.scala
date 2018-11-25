@@ -7,7 +7,7 @@ import akka.actor.{Actor, ActorRef, Props}
 import akka.pattern.{ask, pipe}
 import akka.routing._
 import akka.util.Timeout
-import ru._2gis.api.CustomExecutionContext
+import ru._2gis.api.GlobalExecutionContext
 import ru._2gis.api.crawler.{CompanyInfoLoader, CompanyInfoLoadingResult, HttpClient, LoadCompanyInfo}
 
 import scala.concurrent.duration._
@@ -21,7 +21,7 @@ final case class GetResult(id: UUID)
 
 /** Актор, занимающийся исполнением асинхронных запросов */
 private[async]
-final class AsyncExecutor extends Actor with HttpClient with CustomExecutionContext {
+final class AsyncExecutor extends Actor with HttpClient with GlobalExecutionContext {
 
   // кэш исполняющихся и исполненных запросов
   private val executions = context.actorOf(Props[Executions], "executions")

@@ -6,7 +6,7 @@ import java.util.UUID
 import akka.actor.{ActorSystem, Props}
 import akka.pattern.ask
 import akka.util.Timeout
-import ru._2gis.api.CustomExecutionContext
+import ru._2gis.api.GlobalExecutionContext
 import ru._2gis.api.crawler.ExecutionStatus
 
 import scala.concurrent.Future
@@ -16,7 +16,7 @@ import scala.concurrent.duration._
   * Класс-обертка над акторной системой, предоставляющий scala-api для
   * исполнения асинхронных запросов
   */
-final class AsyncApi(system: ActorSystem) extends CustomExecutionContext {
+final class AsyncApi(system: ActorSystem) extends GlobalExecutionContext {
 
   private val asyncExecutor = system.actorOf(Props[AsyncExecutor], "async-executor")
   private implicit val askTimeout: Timeout = Timeout(1.second)
