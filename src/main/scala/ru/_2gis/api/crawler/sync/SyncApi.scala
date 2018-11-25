@@ -22,7 +22,7 @@ final class SyncApi(implicit system: ActorSystem, client: OkHttpClient, config: 
 
   private val id = UUID.fromString("00000000-0000-0000-0000-000000000000")
   private implicit val timeout: Timeout =
-    Timeout((config.getLong("api.crawler.http-client.loadTimeoutInMillis") + 2).millis)
+    Timeout((config.getLong("api.crawler.http-client.loadTimeoutInMillis") + 2000).millis)
 
   def executeQuery(urls: IndexedSeq[URL]): Future[ExecutionStatus] = {
     val executor = system.actorOf(Props(
