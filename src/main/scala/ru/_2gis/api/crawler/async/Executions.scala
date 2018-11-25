@@ -22,6 +22,7 @@ private[async]
 final case class MaybeExecutionStatus(status: Option[ExecutionStatus])
 
 
+/** LRU-кэш исполняющихся и исполненных запросов */
 private[async]
 final class Executions extends Actor {
 
@@ -37,6 +38,9 @@ final class Executions extends Actor {
   }
 
   private def work(cache: Map[UUID, CacheEntry]): Receive = {
+    // когда приходит команда создать запись в кэше под новый запрос,
+    // создаем такую запись и добавляем ее в кэш, попутно удалив самую
+    // старую запись в кэше, если он переполнен
     case NewExecution(id, urlsCount) =>
       val newCacheEntry = CacheEntry(System.currentTimeMillis(), Incomplete(urlsCount, IndexedSeq.empty))
       if (cache.size >= maxCapacity) {
@@ -46,6 +50,9 @@ final class Executions extends Actor {
       } else {
         context.become(work(cache + (id -> newCacheEntry)))
       }
+
+    // когда приходит загруженная информация от `воркера`, добавляем ее
+    // в соответствующую запись кэша
     case CompanyInfoLoadingResult(id, url, result) =>
       if (cache.contains(id)) {
         val entry = cache(id)
@@ -62,8 +69,13 @@ final class Executions extends Actor {
         val updatedCache = cache + (id -> newEntry)
         context.become(work(updatedCache))
       }
+
+    // когда пришел запрос на получение информации о исполняющемся или исполненном
+    // запросе, просто берем его из кэша
     case GetExecutionStatus(id) =>
       sender() ! MaybeExecutionStatus(cache.get(id).map(_.executionStatus))
+
+    // периодически чистим кэш от старых записей
     case Tick =>
       val currentTimestamp = System.currentTimeMillis()
       val cleanedCache = (Map.empty[UUID, CacheEntry] /: cache) { case (nc, (id, entry)) =>

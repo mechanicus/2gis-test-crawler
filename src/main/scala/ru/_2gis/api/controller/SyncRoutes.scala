@@ -9,7 +9,14 @@ import ru._2gis.api.crawler.sync.SyncApi
 import ru._2gis.api.view._
 import ru._2gis.api.marshalling._
 
-final class SyncRoutes(system: ActorSystem) extends RouteGroup with CustomExecutionContext {
+
+/**
+  * Модуль контроллера, обрабатывающий синхронные запросы к API
+  */
+final class SyncRoutes(system: ActorSystem)
+  extends RouteGroup
+  with CustomExecutionContext
+{
 
   import JsonCodecs._
   import Marshallers._

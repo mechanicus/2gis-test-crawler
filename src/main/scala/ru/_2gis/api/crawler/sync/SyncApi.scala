@@ -14,6 +14,10 @@ import scala.concurrent.Future
 import scala.concurrent.duration._
 
 
+/**
+  * Класс-обертка над акторной системой, предоставляющий scala-api для
+  * исполнения синхронных запросов
+  */
 final class SyncApi(system: ActorSystem) extends HttpClient with CustomExecutionContext {
 
   private val id = UUID.fromString("00000000-0000-0000-0000-000000000000")

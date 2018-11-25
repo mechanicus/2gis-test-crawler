@@ -5,7 +5,10 @@ import akka.http.scaladsl.server.RejectionHandler
 import argonaut._, Argonaut._
 import ru._2gis.api.view._
 
-
+/**
+  * Кастомный `RejectionHandler`, который мапит стандартные сообщения
+  * фреймворка об ошибках HTTP в json формат.
+  */
 trait CustomRejectionHandler {
 
   import JsonCodecs._

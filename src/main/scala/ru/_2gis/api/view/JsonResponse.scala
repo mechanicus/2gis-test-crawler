@@ -3,11 +3,13 @@ package ru._2gis.api.view
 import java.net.HttpURLConnection._
 
 
+/** Базовый класс, представляющий HTTP-отклик API в формате json */
 sealed abstract class JsonResponse[+A] {
   def code: Int
   def status: String
 }
 
+/** Успешный отклик (HTTP коды 2XX-3XX) */
 private[view]
 final case class Success[+A] (
   override val code: Int,
@@ -15,6 +17,7 @@ final case class Success[+A] (
   result: A
 ) extends JsonResponse[A]
 
+/** Отклик с ошибкой (HTTP коды 4XX-5XX) */
 private[view]
 final case class Error (
   override val code: Int,

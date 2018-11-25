@@ -6,6 +6,7 @@ import argonaut._, Argonaut._
 import ru._2gis.api.crawler.CompanyInfo
 import ru._2gis.api.crawler.{Complete, ExecutionStatus, Incomplete, Record}
 
+
 object JsonCodecs extends EncodeJsons {
 
   implicit def encodeIndexedSeq[A: EncodeJson]: EncodeJson[IndexedSeq[A]] = EncodeJson {

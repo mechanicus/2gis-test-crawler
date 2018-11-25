@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit
 import com.typesafe.config.ConfigFactory
 import okhttp3.OkHttpClient
 
+/** Миксин с HTTP-клиентом, сконфигурированным из конфига API */
 trait HttpClient {
   protected val client: OkHttpClient = HttpClient.client
 }

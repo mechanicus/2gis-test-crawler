@@ -7,6 +7,10 @@ import com.typesafe.config.ConfigFactory
 import scala.concurrent.ExecutionContext
 
 
+/**
+  * Миксин с `ExecutionContext`, настроенным из конфига API
+  * для исполнения действий над `Future`
+  */
 trait CustomExecutionContext {
 
   implicit val executionContext: ExecutionContext = CustomExecutionContext.ec

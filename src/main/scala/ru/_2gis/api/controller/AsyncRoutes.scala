@@ -14,6 +14,9 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 
 
+/**
+  * Модуль контроллера, обрабатывающий асинхронные запросы к API
+  */
 final class AsyncRoutes(system: ActorSystem)
   extends RouteGroup
      with CustomExecutionContext

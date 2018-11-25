@@ -17,6 +17,7 @@ private[sync]
 final case class Execute(urls: IndexedSeq[URL])
 
 
+/** Актор, занимающийся исполнением асинхронных запросов */
 final class SyncExecutor (
   defaultId: UUID,
   client: OkHttpClient,
@@ -26,6 +27,11 @@ final class SyncExecutor (
 {
 
   override def receive: Receive = {
+    // когда приходит запрос на загрузку информации по урлам,
+    // создаем по `воркеру` на каждый урл, отправляем им каждому
+    // по одному урлу и ждем ответных сообщений с загруженной
+    // информацией. Когда все урлы обработаны, собираем результат
+    // и возвращаем клиенту
     case Execute(urls) =>
       val futures = urls map { url =>
         val loader = context.actorOf(Props(

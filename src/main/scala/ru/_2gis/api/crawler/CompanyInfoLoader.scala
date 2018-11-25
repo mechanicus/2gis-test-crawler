@@ -24,7 +24,7 @@ final case class CompanyInfoLoadingResult(
   result: Either[ErrorMessage, CompanyInfo]
 )
 
-
+/**  Актор, занимающийся загрузкой информации о компании (worker) */
 private[crawler]
 final class CompanyInfoLoader(client: OkHttpClient) extends Actor {
 
