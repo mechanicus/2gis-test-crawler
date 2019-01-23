@@ -17,7 +17,7 @@ private[sync]
 final case class Execute(urls: IndexedSeq[URL])
 
 
-/** Актор, занимающийся исполнением асинхронных запросов */
+/** Актор, занимающийся исполнением синхронных запросов */
 final class SyncExecutor (
   defaultId: UUID,
   client: OkHttpClient,

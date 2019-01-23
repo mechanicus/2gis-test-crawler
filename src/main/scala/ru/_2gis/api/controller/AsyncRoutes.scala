@@ -12,9 +12,6 @@ import ru._2gis.api.crawler.async._
 import ru._2gis.api.marshalling._
 import ru._2gis.api.view._
 
-import scala.concurrent.Await
-import scala.concurrent.duration._
-
 
 /**
   * Модуль контроллера, обрабатывающий асинхронные запросы к API
@@ -39,10 +36,7 @@ final class AsyncRoutes(implicit system: ActorSystem, client: OkHttpClient, conf
         complete(response)
       }}} ~
       path("query" / JavaUUID) { id => get {
-        // поскольку у успешного и неуспешного JsonResponse нет общего базового
-        // супертипа, который бы отрисовывался в json, пришлось покинуть
-        // монаду Future и разделить вызовы complete по конкретным типам
-        Await.result(asyncApi.getQueryResult(id), Duration.Inf) match {
+        onSuccess(asyncApi.getQueryResult(id)) {
           case Some(status) =>
             complete(Responses.ok(status))
           case None =>
